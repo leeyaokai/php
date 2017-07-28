@@ -23,12 +23,33 @@ setcookie('count'," ",time()-3600);
   if(isset($_COOKIE['count'])){
       $count =1+$_COOKIE['count'];
       setcookie('count',$count,time()+3600);
-      echo "目前瀏覽次數為".$count; 
+      echo "您瀏覽次數為".$count."<br/>"; 
   }else{
         setcookie('count',1,time()+3600);
-        echo "您是第一次登入";   
+        echo "您是第一次登入"."<br/>";   
   }
-}  
+}
+  if (!file_exists("counter.txt")) {
+
+      $counter = 0;
+      $file = fopen("counter.txt","w");
+      fputs($file,$counter);
+      fclose($file);
+  }else {
+      $file = fopen('counter.txt','r+');
+      $counter = fread($file,filesize("counter.txt"));
+      fclose($file);
+  }
+
+  $counter +=1;
+  $file = fopen("counter.txt","w+");
+  fputs($file,$counter);
+
+  fclose($file);
+   $file = fopen('counter.txt','r+');
+   $counter = fread($file,filesize("counter.txt"));
+   fclose($file);
+   echo "瀏覽總人數".$counter."<br/>";
 ?>
 <form action="08-11.php" method="post">  
    <input type="submit" name="submit" value="clean">   
